@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shonen Nexus — Anime Community</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --blue: #43baff;
+        --blue-bright: #8bdcff;
+        --white: #f7fbff;
+        --dark: #050a10;
+        --gold: #ffd166;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+            radial-gradient(circle at 50% 30%, #172638 0%, #05070b 70%);
+        font-family: Arial, Helvetica, sans-serif;
+        overflow: hidden;
+    }
+
+    /*
+        MAIN BANNER
+        16:9 aspect ratio
+    */
+
+    .banner {
+        position: relative;
+        width: min(100vw, 1280px);
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: #071019;
+        color: var(--white);
+        isolation: isolate;
+
+        box-shadow:
+            0 30px 80px rgba(0,0,0,.65),
+            0 0 0 1px rgba(255,255,255,.08);
+    }
+
+    /* ----------------------------------
+       BACKGROUND IMAGE
+    ---------------------------------- */
+
+    .background {
+        position: absolute;
+        inset: 0;
+        z-index: -5;
+
+        background-image:
+            url("https://www.google.com/goto?url=CAESaQHrOzAV12vOJbQHknGeGuq0Bt_d88CMmrNiRGZwBs4RUFvlAPiiXg_fk-Spqts3ExHxI9zvXpvQDhHbGB1HORWh3mqurGioJ0hEXtHDuXMaG-0I7mH3twMiOHEzIRBWPZ5gu2bughgCkg");
+
+        background-size: cover;
+        background-position: center center;
+
+        filter:
+            saturate(.85)
+            contrast(1.05)
+            brightness(.72);
+
+        transform: scale(1.03);
+    }
+
+    /* Dark cinematic gradient */
+
+    .cinematic {
+        position: absolute;
+        inset: 0;
+        z-index: -4;
+
+        background:
+            linear-gradient(
+                90deg,
+                rgba(3, 8, 14, .98) 0%,
+                rgba(3, 8, 14, .86) 24%,
+                rgba(3, 8, 14, .40) 48%,
+                rgba(3, 8, 14, .04) 76%
+            ),
+            linear-gradient(
+                0deg,
+                rgba(2,5,9,.85) 0%,
+                transparent 38%,
+                rgba(2,5,9,.15) 100%
+            );
+    }
+
+    /* Blue cinematic light */
+
+    .blue-glow {
+        position: absolute;
+        width: 65%;
+        height: 120%;
+        right: -25%;
+        top: -15%;
+
+        z-index: -3;
+
+        background:
+            radial-gradient(
+                ellipse,
+                rgba(50, 181, 255, .20),
+                transparent 65%
+            );
+
+        filter: blur(30px);
+        pointer-events: none;
+    }
+
+    /* ----------------------------------
+       DECORATIVE DIAGONAL SHAPES
+    ---------------------------------- */
+
+    .diagonal {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        bottom: 0;
+        left: 42%;
+
+        width: 3px;
+
+        background:
+            linear-gradient(
+                to bottom,
+                transparent,
+                var(--blue),
+                transparent
+            );
+
+        opacity: .55;
+
+        transform: skewX(-12deg);
+        box-shadow: 0 0 18px var(--blue);
+    }
+
+    .diagonal::before {
+        content: "";
+        position: absolute;
+        top: 12%;
+        right: 18px;
+
+        width: 180px;
+        height: 1px;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--blue)
+        );
+
+        opacity: .5;
+    }
+
+    .diagonal::after {
+        content: "";
+        position: absolute;
+        bottom: 18%;
+        right: 45px;
+
+        width: 100px;
+        height: 1px;
+
+        background: var(--blue);
+        opacity: .45;
+    }
+
+    /* ----------------------------------
+       TOP LABEL
+    ---------------------------------- */
+
+    .top-label {
+        position: absolute;
+        top: 7%;
+        left: 5%;
+
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        font-size: clamp(9px, 1vw, 14px);
+        font-weight: 700;
+        letter-spacing: .28em;
+        text-transform: uppercase;
+
+        color: rgba(255,255,255,.72);
+    }
+
+    .top-label::before {
+        content: "";
+        width: 35px;
+        height: 2px;
+
+        background: var(--blue);
+        box-shadow: 0 0 10px var(--blue);
+    }
+
+    /* ----------------------------------
+       MAIN TITLE
+    ---------------------------------- */
+
+    .title {
+        position: absolute;
+        left: 5%;
+        top: 19%;
+
+        text-transform: uppercase;
+
+        line-height: .82;
+
+        font-weight: 1000;
+        letter-spacing: -.055em;
+
+        user-select: none;
+    }
+
+    .title .shonen {
+        display: block;
+
+        font-size: clamp(42px, 7.3vw, 112px);
+
+        color: white;
+
+        text-shadow:
+            4px 5px 0 rgba(0,0,0,.5),
+            0 0 30px rgba(0,0,0,.55);
+    }
+
+    .title .nexus {
+        display: block;
+
+        font-size: clamp(48px, 8.4vw, 128px);
+
+        color: transparent;
+
+        -webkit-text-stroke: 2px rgba(255,255,255,.95);
+
+        background:
+            linear-gradient(
+                180deg,
+                #ffffff 5%,
+                #61caff 48%,
+                #168fd0 100%
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        filter:
+            drop-shadow(0 5px 0 rgba(0,0,0,.35))
+            drop-shadow(0 0 18px rgba(40,180,255,.3));
+    }
+
+    /* ----------------------------------
+       JAPANESE-STYLE DECORATION
+    ---------------------------------- */
+
+    .jp {
+        position: absolute;
+
+        left: 4.2%;
+        top: 44%;
+
+        writing-mode: vertical-rl;
+
+        font-size: clamp(12px, 1.3vw, 20px);
+        font-weight: 700;
+
+        letter-spacing: .35em;
+
+        color: rgba(255,255,255,.45);
+
+        border-right: 1px solid rgba(255,255,255,.25);
+
+        padding-right: 8px;
+    }
+
+    /* ----------------------------------
+       TAGLINE
+    ---------------------------------- */
+
+    .tagline {
+        position: absolute;
+
+        left: 5.3%;
+        top: 55%;
+
+        font-size: clamp(10px, 1.3vw, 17px);
+
+        font-weight: 800;
+        letter-spacing: .18em;
+
+        color: rgba(255,255,255,.88);
+
+        text-transform: uppercase;
+    }
+
+    .tagline span {
+        color: var(--blue-bright);
+    }
+
+    /* ----------------------------------
+       DESCRIPTION
+    ---------------------------------- */
+
+    .description {
+        position: absolute;
+
+        left: 5.3%;
+        top: 62%;
+
+        width: min(39%, 430px);
+
+        color: rgba(235,245,255,.68);
+
+        font-size: clamp(9px, 1.05vw, 14px);
+
+        line-height: 1.65;
+    }
+
+    /* ----------------------------------
+       CATEGORY BAR
+    ---------------------------------- */
+
+    .categories {
+        position: absolute;
+
+        left: 5.3%;
+        bottom: 13%;
+
+        display: flex;
+        align-items: center;
+        gap: 9px;
+
+        flex-wrap: wrap;
+
+        max-width: 42%;
+    }
+
+    .category {
+        padding: 7px 11px;
+
+        border: 1px solid rgba(117,205,255,.32);
+
+        background: rgba(4,15,25,.55);
+
+        backdrop-filter: blur(5px);
+
+        color: rgba(255,255,255,.85);
+
+        font-size: clamp(7px, .75vw, 11px);
+
+        font-weight: 800;
+        letter-spacing: .12em;
+
+        text-transform: uppercase;
+    }
+
+    .category:first-child {
+        border-color: var(--blue);
+        color: var(--blue-bright);
+
+        box-shadow:
+            0 0 12px rgba(67,186,255,.12);
+    }
+
+    /* ----------------------------------
+       CLUB/PFP
+    ---------------------------------- */
+
+    .club {
+        position: absolute;
+
+        right: 4.5%;
+        bottom: 7%;
+
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        padding: 8px 13px 8px 8px;
+
+        border: 1px solid rgba(255,255,255,.18);
+
+        background: rgba(2,7,12,.48);
+
+        backdrop-filter: blur(9px);
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .club img {
+        width: clamp(30px, 3.5vw, 48px);
+        height: clamp(30px, 3.5vw, 48px);
+
+        object-fit: cover;
+
+        border-radius: 50%;
+
+        border: 2px solid rgba(91,201,255,.75);
+
+        box-shadow:
+            0 0 15px rgba(56,183,255,.25);
+    }
+
+    .club-text {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .club-name {
+        font-size: clamp(8px, .9vw, 12px);
+
+        font-weight: 900;
+        letter-spacing: .1em;
+
+        text-transform: uppercase;
+    }
+
+    .club-url {
+        font-size: clamp(7px, .7vw, 10px);
+
+        color: rgba(255,255,255,.48);
+    }
+
+    /* ----------------------------------
+       JOIN BUTTON
+    ---------------------------------- */
+
+    .join {
+        position: absolute;
+
+        left: 5.3%;
+        bottom: 6.8%;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        color: white;
+
+        font-size: clamp(8px, .9vw, 12px);
+
+        font-weight: 900;
+
+        letter-spacing: .18em;
+
+        text-transform: uppercase;
+    }
+
+    .join::after {
+        content: "→";
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 26px;
+        height: 26px;
+
+        border: 1px solid var(--blue);
+
+        color: var(--blue-bright);
+
+        box-shadow:
+            0 0 12px rgba(67,186,255,.25);
+    }
+
+    /* ----------------------------------
+       CHESS SYMBOL
+    ---------------------------------- */
+
+    .chess {
+        position: absolute;
+
+        right: 5%;
+        top: 7%;
+
+        font-size: clamp(25px, 3vw, 44px);
+
+        color: rgba(255,255,255,.17);
+
+        transform: rotate(-8deg);
+
+        text-shadow:
+            0 0 20px rgba(70,190,255,.25);
+    }
+
+    /* ----------------------------------
+       PARTICLES
+    ---------------------------------- */
+
+    .particles {
+        position: absolute;
+        inset: 0;
+
+        z-index: 3;
+
+        pointer-events: none;
+    }
+
+    .particle {
+        position: absolute;
+
+        width: 2px;
+        height: 2px;
+
+        background: rgba(155,225,255,.8);
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 0 7px rgba(105,210,255,.9);
+
+        animation:
+            float 5s infinite ease-in-out;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            opacity: .15;
+            transform: translateY(0);
+        }
+
+        50% {
+            opacity: .8;
+            transform: translateY(-12px);
+        }
+    }
+
+    /* ----------------------------------
+       FILM GRAIN
+    ---------------------------------- */
+
+    .grain {
+        position: absolute;
+        inset: -50%;
+
+        z-index: 5;
+
+        pointer-events: none;
+
+        opacity: .06;
+
+        background-image:
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+
+        animation: grain .25s steps(2) infinite;
+    }
+
+    @keyframes grain {
+        0% { transform: translate(0,0); }
+        25% { transform: translate(-2%,1%); }
+        50% { transform: translate(1%,-2%); }
+        75% { transform: translate(2%,2%); }
+        100% { transform: translate(-1%,-1%); }
+    }
+
+    /* ----------------------------------
+       VIGNETTE
+    ---------------------------------- */
+
+    .vignette {
+        position: absolute;
+        inset: 0;
+
+        z-index: 4;
+
+        pointer-events: none;
+
+        background:
+            radial-gradient(
+                ellipse at center,
+                transparent 45%,
+                rgba(0,0,0,.38) 100%
+            );
+    }
+
+    /* ----------------------------------
+       MOBILE
+    ---------------------------------- */
+
+    @media (max-width: 600px) {
+
+        .description {
+            display: none;
+        }
+
+        .categories {
+            max-width: 50%;
+            bottom: 17%;
+        }
+
+        .category {
+            padding: 5px 7px;
+        }
+
+        .club {
+            right: 3%;
+            bottom: 4%;
+        }
+
+        .join {
+            bottom: 5%;
+        }
+
+        .jp {
+            display: none;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="banner">
+
+    <!-- BACKGROUND -->
+    <div class="background"></div>
+
+    <!-- LIGHTING -->
+    <div class="cinematic"></div>
+    <div class="blue-glow"></div>
+
+    <!-- GRAPHIC ELEMENTS -->
+    <div class="diagonal"></div>
+
+    <!-- TOP LABEL -->
+    <div class="top-label">
+        ANIME • MANGA • COMMUNITY
+    </div>
+
+    <!-- CHESS DECORATION -->
+    <div class="chess">♞</div>
+
+    <!-- JAPANESE-STYLE VERTICAL TEXT -->
+    <div class="jp">
+        少年 • ネクサス
+    </div>
+
+    <!-- MAIN TITLE -->
+    <div class="title">
+        <span class="shonen">SHONEN</span>
+        <span class="nexus">NEXUS</span>
+    </div>
+
+    <!-- TAGLINE -->
+    <div class="tagline">
+        <span>WHERE ANIME</span> MEETS THE BOARD
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="description">
+        Anime, manga, games, events, and a community
+        of fans. Step into the Nexus and find your place.
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="categories">
+        <div class="category">Anime</div>
+        <div class="category">Manga</div>
+        <div class="category">Games</div>
+        <div class="category">Events</div>
+        <div class="category">Chess</div>
+    </div>
+
+    <!-- JOIN -->
+    <div class="join">
+        JOIN THE NEXUS
+    </div>
+
+    <!-- CLUB PFP -->
+    <div class="club">
+        <img
+            src="https://images.chesscomfiles.com/uploads/v1/group/994818.bfac52ea.160x160o.db846a459c57@2x.jpg"
+            alt="Shonen Nexus club icon"
+        >
+
+        <div class="club-text">
+            <div class="club-name">
+                Shonen Nexus
+            </div>
+
+            <div class="club-url">
+                chess.com/club/shonen-nexus
+            </div>
+        </div>
+    </div>
+
+    <!-- PARTICLES -->
+    <div class="particles" id="particles"></div>
+
+    <!-- EFFECTS -->
+    <div class="grain"></div>
+    <div class="vignette"></div>
+
+</div>
+
+
+<script>
+    /*
+        Generate subtle cinematic particles.
+        No libraries required.
+    */
+
+    const particleContainer =
+        document.getElementById("particles");
+
+    const particleCount = 55;
+
+    for (let i = 0; i < particleCount; i++) {
+
+        const particle =
+            document.createElement("div");
+
+        particle.className = "particle";
+
+        particle.style.left =
+            Math.random() * 100 + "%";
+
+        particle.style.top =
+            Math.random() * 100 + "%";
+
+        particle.style.animationDelay =
+            Math.random() * 5 + "s";
+
+        particle.style.animationDuration =
+            (3 + Math.random() * 5) + "s";
+
+        particle.style.opacity =
+            (.1 + Math.random() * .6);
+
+        particleContainer.appendChild(particle);
+    }
+
+
+    /*
+        Tiny mouse/parallax effect.
+
+        Move your mouse across the banner and
+        the background shifts slightly.
+    */
+
+    const banner =
+        document.querySelector(".banner");
+
+    const background =
+        document.querySelector(".background");
+
+    banner.addEventListener("mousemove", (event) => {
+
+        const rect =
+            banner.getBoundingClientRect();
+
+        const x =
+            (event.clientX - rect.left) / rect.width - .5;
+
+        const y =
+            (event.clientY - rect.top) / rect.height - .5;
+
+        background.style.transform =
+            `scale(1.045)
+             translate(${x * -8}px, ${y * -5}px)`;
+    });
+
+
+    banner.addEventListener("mouseleave", () => {
+
+        background.style.transform =
+            "scale(1.03) translate(0,0)";
+    });
+</script>
+
+</body>
+</html>
